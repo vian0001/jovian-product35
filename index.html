@@ -758,7 +758,7 @@ user-drag: none;
 
 <body>
 
-    <!-- Tech Background -->
+<!-- Tech Background -->
 <div class="tech-bg"></div>
 <div class="circuit-pattern"></div>
 <div class="tech-particles" id="techParticles"></div>
@@ -827,17 +827,17 @@ user-drag: none;
         </ul>
         
         <h3 class="subsection-title">Cara Kerja Client Isolation di MikroTik</h3>
-        <p>Dari sumber Forum MikroTik (2023), terdapat beberapa pendekatan untuk mengimplementasikan isolasi client wireless di perangkat MikroTik:</p>
+        <p>Dari sumber Forum MikroTik (2023), terdapat beberapa pendekatan untuk mengimplementasikan isolasi client wireless di perangkat MikroTik menggunakan Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line comment"># 1. Client Isolation pada tingkat interface wireless</div>
-            <div class="code-line">Mengaktifkan properti <span class="keyword">datapath.client-isolation</span> di konfigurasi interface wireless</div>
-            <div class="code-line comment"># 2. Bridge Filtering</div>
-            <div class="code-line">Menggunakan filter pada bridge untuk mencegah forwarding antar port tertentu</div>
-            <div class="code-line comment"># 3. VLAN Separation</div>
-            <div class="code-line">Menggunakan VLAN berbeda untuk setiap client atau kelompok client</div>
-            <div class="code-line comment"># 4. Firewall Rules</div>
-            <div class="code-line">Membuat aturan firewall untuk memblokir komunikasi antar subnet client</div>
+        <div class="tech-alert">
+            <p><strong>1. Client Isolation pada tingkat interface wireless</strong></p>
+            <p>Mengaktifkan properti Client Isolation di konfigurasi interface wireless melalui Winbox</p>
+            <p><strong>2. Bridge Filtering</strong></p>
+            <p>Menggunakan filter pada bridge untuk mencegah forwarding antar port tertentu</p>
+            <p><strong>3. VLAN Separation</strong></p>
+            <p>Menggunakan VLAN berbeda untuk setiap client atau kelompok client</p>
+            <p><strong>4. Firewall Rules</strong></p>
+            <p>Membuat aturan firewall untuk memblokir komunikasi antar subnet client</p>
         </div>
         
         <p>Dari sumber BlockDev.io (2022), pendekatan konvensional untuk jaringan tamu sering dibuat pada level wireless AP dan menggunakan client isolation untuk memastikan client wireless tidak dapat saling berkomunikasi. Namun untuk isolasi yang lebih komprehensif, isolasi pada level jaringan (subnet terpisah) dapat memberikan kontrol yang lebih baik.</p>
@@ -856,59 +856,74 @@ user-drag: none;
           <div class="image-caption">Tampilan konfigurasi client isolation di MikroTik RouterOS (Winbox)</div>
         </div>
 
-                <div class="image-container">
+        <div class="image-container">
           <img src="no (2).png" alt="Konfigurasi client isolation di MikroTik">
           <div class="image-caption">Tampilan konfigurasi client isolation di MikroTik RouterOS (Winbox)</div>
         </div>
         
         <h3 class="subsection-title">Metode Dasar Client Isolation</h3>
-        <p>Dari sumber Tangent Soft MikroTik Wiki (2024), konfigurasi dasar untuk client isolation di MikroTik dapat dilakukan dengan menggunakan properti <code>datapath.client-isolation</code> pada konfigurasi wireless. Fitur ini akan mencegah client wireless yang terhubung ke Access Point yang sama untuk dapat berkomunikasi satu sama lain.</p>
+        <p>Dari sumber Tangent Soft MikroTik Wiki (2024), konfigurasi dasar untuk client isolation di MikroTik dapat dilakukan dengan menggunakan properti client isolation pada konfigurasi wireless. Fitur ini akan mencegah client wireless yang terhubung ke Access Point yang sama untuk dapat berkomunikasi satu sama lain.</p>
         
-        <p>Dari sumber Forum MikroTik (2021), pengaturan <code>default-forwarding</code> (pada versi RouterOS lama) atau <code>datapath.client-isolation</code> (pada RouterOS v7+) hanya memblokir forwarding antar client ketika kedua client dilayani oleh AP yang sama. Jika ingin memblokir konektivitas antar client dari AP yang berbeda, harus menggunakan bridge filtering atau subnet yang berbeda melalui VLAN.</p>
+        <p>Dari sumber Forum MikroTik (2021), pengaturan client isolation hanya memblokir forwarding antar client ketika kedua client dilayani oleh AP yang sama. Jika ingin memblokir konektivitas antar client dari AP yang berbeda, harus menggunakan bridge filtering atau subnet yang berbeda melalui VLAN.</p>
         
-        <h3 class="subsection-title">Konfigurasi Client Isolation via CLI</h3>
-        <p>Berikut adalah langkah-langkah konfigurasi client isolation pada interface wireless menggunakan Command Line Interface (CLI) MikroTik:</p>
+        <h3 class="subsection-title">Konfigurasi Client Isolation via Winbox</h3>
+        <p>Berikut adalah langkah-langkah konfigurasi client isolation pada interface wireless menggunakan Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line comment"># Untuk RouterOS versi 7 ke atas</div>
-            <div class="code-line"><span class="keyword">/interface wifi configuration</span> add name=<span class="string">"guestcfg"</span> ssid=<span class="string">"Guest-WiFi"</span> \</div>
-            <div class="code-line">    datapath.client-isolation=<span class="string">yes</span> \</div>
-            <div class="code-line">    security.authentication-types=<span class="string">wpa2-psk</span> \</div>
-            <div class="code-line">    security.passphrase=<span class="string">"GuestPassword123"</span></div>
-            <div class="code-line"></div>
-            <div class="code-line"><span class="keyword">/interface wifi</span> add name=<span class="string">"wifi-guest"</span> configuration=<span class="string">"guestcfg"</span> \</div>
-            <div class="code-line">    master-interface=<span class="string">wlan1</span></div>
-        </div>
-        
-        <p>Untuk mengecek apakah client isolation sudah aktif pada interface wireless:</p>
-        
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wifi configuration print</span> where name=<span class="string">"guestcfg"</span></div>
+        <div class="tech-alert">
+            <p><strong>Untuk RouterOS versi 7 ke atas:</strong></p>
+            <p>1. Buka aplikasi Winbox dan hubungkan ke router MikroTik Anda</p>
+            <p>2. Di panel kiri, klik menu <strong>WiFi</strong></p>
+            <p>3. Pilih tab <strong>WiFi Configurations</strong></p>
+            <p>4. Klik tombol <strong>+</strong> untuk menambahkan konfigurasi baru (atau double-klik konfigurasi yang sudah ada)</p>
+            <p>5. Di jendela konfigurasi, masukkan pengaturan berikut:</p>
+            <p>&nbsp;&nbsp;- <strong>Name</strong>: Masukkan nama konfigurasi (misalnya "guestcfg")</p>
+            <p>&nbsp;&nbsp;- <strong>SSID</strong>: Masukkan nama jaringan (misalnya "Guest-WiFi")</p>
+            <p>&nbsp;&nbsp;- Di bawah tab <strong>Datapath</strong>, centang opsi <strong>Client Isolation</strong></p>
+            <p>&nbsp;&nbsp;- Di bawah tab <strong>Security</strong>, pilih <strong>Authentication Types</strong>: "wpa2-psk"</p>
+            <p>&nbsp;&nbsp;- Masukkan <strong>Passphrase</strong>: Kata sandi untuk jaringan</p>
+            <p>6. Klik <strong>OK</strong> untuk menyimpan konfigurasi</p>
+            <p>7. Kembali ke tab <strong>Interfaces</strong>, klik tombol <strong>+</strong> untuk menambahkan interface baru</p>
+            <p>8. Pilih <strong>Virtual AP</strong> dari menu dropdown</p>
+            <p>9. Di jendela konfigurasi, masukkan:</p>
+            <p>&nbsp;&nbsp;- <strong>Name</strong>: Nama interface (misalnya "wifi-guest")</p>
+            <p>&nbsp;&nbsp;- <strong>Configuration</strong>: Pilih konfigurasi yang baru dibuat ("guestcfg")</p>
+            <p>&nbsp;&nbsp;- <strong>Master Interface</strong>: Pilih interface wireless fisik (misalnya "wlan1")</p>
+            <p>10. Klik <strong>OK</strong> untuk menyimpan</p>
         </div>
         
         <div class="tech-alert">
-            <p>Perhatikan bahwa parameter yang digunakan berbeda antara RouterOS versi 6 dan versi 7+. Pada RouterOS v6, properti untuk isolasi client adalah <code>default-forwarding=no</code>, sedangkan pada RouterOS v7, properti yang digunakan adalah <code>datapath.client-isolation=yes</code>.</p>
+            <p><strong>Untuk RouterOS versi 6:</strong></p>
+            <p>1. Buka Winbox dan hubungkan ke router MikroTik</p>
+            <p>2. Di panel kiri, klik menu <strong>Wireless</strong></p>
+            <p>3. Pilih tab <strong>Interfaces</strong></p>
+            <p>4. Double-klik interface wireless yang ingin dikonfigurasi</p>
+            <p>5. Pada tab <strong>Wireless</strong>:</p>
+            <p>&nbsp;&nbsp;- <strong>Mode</strong>: Pilih "ap bridge"</p>
+            <p>&nbsp;&nbsp;- <strong>SSID</strong>: Masukkan nama jaringan</p>
+            <p>&nbsp;&nbsp;- Centang opsi <strong>Default-Forwarding</strong> dan pilih "no"</p>
+            <p>6. Pada tab <strong>Security Profile</strong>, pilih profil keamanan atau buat yang baru</p>
+            <p>7. Klik <strong>OK</strong> untuk menyimpan konfigurasi</p>
+        </div>
+        
+        <div class="tech-alert">
+            <p>Perhatikan bahwa parameter yang digunakan berbeda antara RouterOS versi 6 dan versi 7+. Pada RouterOS v6, properti untuk isolasi client adalah <strong>Default-Forwarding=no</strong>, sedangkan pada RouterOS v7, properti yang digunakan adalah <strong>Client Isolation</strong> pada tab Datapath.</p>
         </div>
         
         <h3 class="subsection-title">Pengujian Client Isolation</h3>
-        <p>Untuk memverifikasi bahwa client isolation berfungsi dengan benar, Anda dapat melakukan pengujian berikut:</p>
+        <p>Untuk memverifikasi bahwa client isolation berfungsi dengan benar menggunakan Winbox, Anda dapat melakukan pengujian berikut:</p>
         
-        <div class="code-terminal">
-            <div class="code-line comment"># 1. Hubungkan dua atau lebih perangkat ke SSID tamu</div>
-            <div class="code-line comment"># 2. Cek perangkat yang terhubung di MikroTik</div>
-            <div class="code-line"><span class="keyword">/interface wifi registration-table print</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># Hasil contoh:</div>
-            <div class="code-line"># INTERFACE  MAC-ADDRESS       IP-ADDRESS    UPTIME</div>
-            <div class="code-line"># wifi-guest  AA:BB:CC:11:22:33  192.168.99.2  10m32s</div>
-            <div class="code-line"># wifi-guest  DD:EE:FF:44:55:66  192.168.99.3  5m10s</div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 3. Dari satu client, coba ping client lain</div>
-            <div class="code-line comment"># Jika client isolation berfungsi, ping akan gagal</div>
+        <div class="tech-alert">
+            <p><strong>Langkah Pengujian via Winbox:</strong></p>
+            <p>1. Hubungkan dua atau lebih perangkat ke SSID tamu yang telah dikonfigurasi</p>
+            <p>2. Di Winbox, klik menu <strong>WiFi</strong> (v7) atau <strong>Wireless</strong> (v6)</p>
+            <p>3. Pilih tab <strong>Registration Table</strong></p>
+            <p>4. Periksa daftar perangkat yang terhubung, termasuk MAC address dan alamat IP mereka</p>
+            <p>5. Dari satu client, coba ping client lain menggunakan alamat IP-nya</p>
+            <p>6. Jika client isolation berfungsi dengan benar, ping akan gagal karena komunikasi langsung antar client diblokir</p>
         </div>
         
         <div class="conclusion-box">
-            <p><strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> mengonfigurasi client isolation pada level interface wireless di MikroTik relatif sederhana dengan menggunakan properti <code>datapath.client-isolation</code> (RouterOS v7+) atau <code>default-forwarding</code> (RouterOS v6). Namun, perlu diingat bahwa metode ini hanya mencegah komunikasi antar client yang terhubung ke AP yang sama, sehingga diperlukan pendekatan tambahan jika ingin isolasi yang lebih komprehensif.</p>
+            <p><strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> mengonfigurasi client isolation pada level interface wireless di MikroTik relatif sederhana dengan menggunakan properti Client Isolation (RouterOS v7+) atau Default-Forwarding (RouterOS v6) melalui Winbox. Namun, perlu diingat bahwa metode ini hanya mencegah komunikasi antar client yang terhubung ke AP yang sama, sehingga diperlukan pendekatan tambahan jika ingin isolasi yang lebih komprehensif.</p>
         </div>
     </div>
 
@@ -916,45 +931,59 @@ user-drag: none;
     <div class="section fade-in">
         <h2 class="section-title">3. ISOLASI CLIENT MENGGUNAKAN BRIDGE FILTERING</h2>
         
-
-        
         <h3 class="subsection-title">Konsep Bridge Filtering</h3>
         <p>Dari sumber Forum MikroTik (2023), bridge filtering dapat digunakan untuk membatasi komunikasi antar perangkat pada level layer 2 (MAC). Metode ini lebih fleksibel dan dapat digunakan untuk memblokir konektivitas antara client yang terhubung ke AP yang berbeda tetapi masih berada dalam bridge yang sama.</p>
         
         <p>Dari sumber Tangent Soft MikroTik Wiki (2024), pendekatan bridge filtering menggunakan filter pada level bridge daripada filter IP, dan mencegah forwarding antar tamu dan juga ke jaringan lain. Ini dapat menjadi solusi alternatif yang efektif untuk isolasi client tanpa perlu menggunakan VLAN.</p>
         
-        <h3 class="subsection-title">Konfigurasi Bridge Filtering via CLI</h3>
-        <p>Langkah-langkah untuk mengonfigurasi isolasi client menggunakan bridge filtering:</p>
+        <h3 class="subsection-title">Konfigurasi Bridge Filtering via Winbox</h3>
+        <p>Langkah-langkah untuk mengonfigurasi isolasi client menggunakan bridge filtering melalui Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line comment"># 1. Buat bridge untuk jaringan tamu</div>
-            <div class="code-line"><span class="keyword">/interface bridge</span> add name=<span class="string">guest-bridge</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 2. Tambahkan interface wireless ke bridge</div>
-            <div class="code-line"><span class="keyword">/interface bridge port</span> add bridge=<span class="string">guest-bridge</span> interface=<span class="string">wifi-guest</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 3. Aktifkan bridge filter</div>
-            <div class="code-line"><span class="keyword">/interface bridge</span> set <span class="string">guest-bridge</span> protocol-mode=<span class="string">none</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 4. Buat aturan bridge filter untuk memblokir komunikasi antar client</div>
-            <div class="code-line"><span class="keyword">/interface bridge filter</span> add chain=<span class="string">forward</span> action=<span class="string">drop</span> in-bridge=<span class="string">guest-bridge</span> \</div>
-            <div class="code-line">    out-bridge=<span class="string">guest-bridge</span> mac-protocol=<span class="string">ip</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 5. Izinkan akses ke router (untuk DHCP, DNS, dll)</div>
-            <div class="code-line"><span class="keyword">/interface bridge filter</span> add chain=<span class="string">forward</span> action=<span class="string">accept</span> in-bridge=<span class="string">guest-bridge</span> \</div>
-            <div class="code-line">    dst-mac-address=<span class="string">XX:XX:XX:XX:XX:XX</span> mac-protocol=<span class="string">ip</span></div>
-            <div class="code-line">    <span class="comment"># Ganti XX:XX:XX:XX:XX:XX dengan MAC address interface bridge router</span></div>
+        <div class="tech-alert">
+            <p><strong>Langkah 1: Membuat Bridge untuk Jaringan Tamu</strong></p>
+            <p>1. Buka Winbox dan hubungkan ke router MikroTik</p>
+            <p>2. Di panel kiri, klik menu <strong>Bridge</strong></p>
+            <p>3. Pada tab <strong>Bridge</strong>, klik tombol <strong>+</strong> (plus) untuk menambahkan bridge baru</p>
+            <p>4. Pada jendela konfigurasi:</p>
+            <p>&nbsp;&nbsp;- <strong>Name</strong>: Masukkan nama bridge (misalnya "guest-bridge")</p>
+            <p>&nbsp;&nbsp;- <strong>Protocol Mode</strong>: Pilih "none" (untuk memungkinkan filtering)</p>
+            <p>5. Klik <strong>OK</strong> untuk menyimpan</p>
         </div>
         
-        <p>Untuk memeriksa aturan bridge filter yang telah dikonfigurasi:</p>
+        <div class="tech-alert">
+            <p><strong>Langkah 2: Menambahkan Interface ke Bridge</strong></p>
+            <p>1. Masih di menu <strong>Bridge</strong>, pilih tab <strong>Ports</strong></p>
+            <p>2. Klik tombol <strong>+</strong> (plus) untuk menambahkan port baru</p>
+            <p>3. Pada jendela konfigurasi:</p>
+            <p>&nbsp;&nbsp;- <strong>Interface</strong>: Pilih interface wireless tamu dari dropdown (misalnya "wifi-guest")</p>
+            <p>&nbsp;&nbsp;- <strong>Bridge</strong>: Pilih bridge yang baru dibuat ("guest-bridge")</p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan</p>
+        </div>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface bridge filter print</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># Hasil contoh:</div>
-            <div class="code-line"># Flags: X - disabled, I - invalid, D - dynamic</div>
-            <div class="code-line"># 0   chain=forward action=drop in-bridge=guest-bridge out-bridge=guest-bridge mac-protocol=ip</div>
-            <div class="code-line"># 1   chain=forward action=accept in-bridge=guest-bridge dst-mac-address=XX:XX:XX:XX:XX:XX mac-protocol=ip</div>
+        <div class="tech-alert">
+            <p><strong>Langkah 3: Membuat Aturan Bridge Filter</strong></p>
+            <p>1. Masih di menu <strong>Bridge</strong>, pilih tab <strong>Filters</strong></p>
+            <p>2. Klik tombol <strong>+</strong> (plus) untuk menambahkan aturan filter baru</p>
+            <p>3. Pada jendela konfigurasi:</p>
+            <p>&nbsp;&nbsp;- <strong>Chain</strong>: Pilih "forward"</p>
+            <p>&nbsp;&nbsp;- <strong>In Bridge</strong>: Pilih bridge tamu ("guest-bridge")</p>
+            <p>&nbsp;&nbsp;- <strong>Out Bridge</strong>: Pilih bridge tamu ("guest-bridge")</p>
+            <p>&nbsp;&nbsp;- <strong>MAC Protocol</strong>: Pilih "ip"</p>
+            <p>&nbsp;&nbsp;- <strong>Action</strong>: Pilih "drop"</p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan</p>
+        </div>
+        
+        <div class="tech-alert">
+            <p><strong>Langkah 4: Mengizinkan Akses ke Router (untuk DHCP, DNS)</strong></p>
+            <p>1. Di menu <strong>Bridge</strong>, tab <strong>Filters</strong>, klik tombol <strong>+</strong> (plus) lagi</p>
+            <p>2. Pada jendela konfigurasi:</p>
+            <p>&nbsp;&nbsp;- <strong>Chain</strong>: Pilih "forward"</p>
+            <p>&nbsp;&nbsp;- <strong>In Bridge</strong>: Pilih bridge tamu ("guest-bridge")</p>
+            <p>&nbsp;&nbsp;- <strong>Dst. MAC Address</strong>: Masukkan MAC address interface bridge router</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;(Untuk mengetahui MAC address, lihat di menu <strong>Interfaces</strong>, pilih bridge, tab <strong>Status</strong>)</p>
+            <p>&nbsp;&nbsp;- <strong>MAC Protocol</strong>: Pilih "ip"</p>
+            <p>&nbsp;&nbsp;- <strong>Action</strong>: Pilih "accept"</p>
+            <p>3. Klik <strong>OK</strong> untuk menyimpan</p>
         </div>
         
         <div class="security-alert">
@@ -983,55 +1012,125 @@ user-drag: none;
         
         <p>Dari sumber BlockDev.io (2022), isolasi dengan subnet terpisah memungkinkan client pada jaringan tamu untuk saling melihat tetapi tidak dapat melihat jaringan utama. Pendekatan ini memberikan level isolasi yang lebih tinggi dibandingkan dengan client isolation sederhana pada level AP.</p>
         
-        <h3 class="subsection-title">Konfigurasi VLAN dan Subnet untuk Jaringan Tamu</h3>
-        <p>Berikut adalah langkah-langkah untuk mengonfigurasi isolasi client menggunakan VLAN dan subnet terpisah:</p>
+        <h3 class="subsection-title">Konfigurasi VLAN dan Subnet via Winbox</h3>
+        <p>Langkah-langkah untuk mengonfigurasi isolasi client menggunakan VLAN dan subnet terpisah melalui Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line comment"># 1. Buat VLAN interface untuk jaringan tamu</div>
-            <div class="code-line"><span class="keyword">/interface vlan</span> add name=<span class="string">vlan-guest</span> vlan-id=<span class="string">100</span> interface=<span class="string">ether1</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 2. Buat bridge untuk jaringan tamu</div>
-            <div class="code-line"><span class="keyword">/interface bridge</span> add name=<span class="string">bridge-guest</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 3. Tambahkan VLAN interface dan interface wireless ke bridge</div>
-            <div class="code-line"><span class="keyword">/interface bridge port</span> add bridge=<span class="string">bridge-guest</span> interface=<span class="string">vlan-guest</span></div>
-            <div class="code-line"><span class="keyword">/interface bridge port</span> add bridge=<span class="string">bridge-guest</span> interface=<span class="string">wifi-guest</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 4. Konfigurasi IP address untuk subnet tamu</div>
-            <div class="code-line"><span class="keyword">/ip address</span> add address=<span class="string">192.168.99.1/24</span> interface=<span class="string">bridge-guest</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 5. Konfigurasi DHCP server untuk jaringan tamu</div>
-            <div class="code-line"><span class="keyword">/ip pool</span> add name=<span class="string">guest-pool</span> ranges=<span class="string">192.168.99.100-192.168.99.200</span></div>
-            <div class="code-line"><span class="keyword">/ip dhcp-server</span> add name=<span class="string">guest-dhcp</span> interface=<span class="string">bridge-guest</span> address-pool=<span class="string">guest-pool</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 6. Konfigurasi network dan gateway untuk DHCP</div>
-            <div class="code-line"><span class="keyword">/ip dhcp-server network</span> add address=<span class="string">192.168.99.0/24</span> gateway=<span class="string">192.168.99.1</span> dns-server=<span class="string">8.8.8.8</span></div>
+        <div class="tech-alert">
+            <p><strong>Langkah 1: Membuat VLAN Interface</strong></p>
+            <p>1. Buka Winbox dan hubungkan ke router MikroTik</p>
+            <p>2. Di panel kiri, klik menu <strong>Interfaces</strong></p>
+            <p>3. Klik tombol <strong>+</strong> (plus) dan pilih <strong>VLAN</strong> dari menu dropdown</p>
+            <p>4. Pada jendela konfigurasi:</p>
+            <p>&nbsp;&nbsp;- <strong>Name</strong>: Masukkan nama interface (misalnya "vlan-guest")</p>
+            <p>&nbsp;&nbsp;- <strong>VLAN ID</strong>: Masukkan ID untuk VLAN (misalnya "100")</p>
+            <p>&nbsp;&nbsp;- <strong>Interface</strong>: Pilih interface fisik (misalnya "ether1")</p>
+            <p>5. Klik <strong>OK</strong> untuk menyimpan</p>
         </div>
         
-        <h3 class="subsection-title">Konfigurasi Firewall untuk Isolasi Subnet</h3>
-        <p>Setelah membuat VLAN dan subnet terpisah, tambahkan aturan firewall untuk memastikan isolasi:</p>
+        <div class="tech-alert">
+            <p><strong>Langkah 2: Membuat Bridge untuk Jaringan Tamu</strong></p>
+            <p>1. Di panel kiri, klik menu <strong>Bridge</strong></p>
+            <p>2. Pada tab <strong>Bridge</strong>, klik tombol <strong>+</strong> (plus)</p>
+            <p>3. Pada jendela konfigurasi:</p>
+            <p>&nbsp;&nbsp;- <strong>Name</strong>: Masukkan nama bridge (misalnya "bridge-guest")</p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan</p>
+        </div>
         
-        <div class="code-terminal">
-            <div class="code-line comment"># 1. Buat address-list untuk jaringan tamu</div>
-            <div class="code-line"><span class="keyword">/ip firewall address-list</span> add list=<span class="string">guest-network</span> address=<span class="string">192.168.99.0/24</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 2. Izinkan koneksi yang sudah established/related</div>
-            <div class="code-line"><span class="keyword">/ip firewall filter</span> add chain=<span class="string">forward</span> action=<span class="string">accept</span> connection-state=<span class="string">established,related</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 3. Blokir akses dari jaringan tamu ke jaringan lokal</div>
-            <div class="code-line"><span class="keyword">/ip firewall filter</span> add chain=<span class="string">forward</span> action=<span class="string">drop</span> src-address-list=<span class="string">guest-network</span> \</div>
-            <div class="code-line">    dst-address=<span class="string">192.168.88.0/24</span> comment=<span class="string">"Block guest to LAN"</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 4. Blokir komunikasi antar client di jaringan tamu</div>
-            <div class="code-line"><span class="keyword">/ip firewall filter</span> add chain=<span class="string">forward</span> action=<span class="string">drop</span> src-address-list=<span class="string">guest-network</span> \</div>
-            <div class="code-line">    dst-address-list=<span class="string">guest-network</span> comment=<span class="string">"Block guest to guest"</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 5. Izinkan akses dari jaringan tamu ke internet</div>
-            <div class="code-line"><span class="keyword">/ip firewall filter</span> add chain=<span class="string">forward</span> action=<span class="string">accept</span> src-address-list=<span class="string">guest-network</span> \</div>
-            <div class="code-line">    connection-state=<span class="string">new</span> comment=<span class="string">"Allow guest to internet"</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 6. Konfigurasi NAT untuk jaringan tamu</div>
-            <div class="code-line"><span class="keyword">/ip firewall nat</span> add chain=<span class="string">srcnat</span> action=<span class="string">masquerade</span> src-address-list=<span class="string">guest-network</span></div>
+        <div class="tech-alert">
+            <p><strong>Langkah 3: Menambahkan Interface ke Bridge</strong></p>
+            <p>1. Masih di menu <strong>Bridge</strong>, pilih tab <strong>Ports</strong></p>
+            <p>2. Klik tombol <strong>+</strong> (plus) untuk menambahkan port baru</p>
+            <p>3. Pada jendela konfigurasi pertama:</p>
+            <p>&nbsp;&nbsp;- <strong>Interface</strong>: Pilih interface VLAN yang baru dibuat ("vlan-guest")</p>
+            <p>&nbsp;&nbsp;- <strong>Bridge</strong>: Pilih bridge tamu ("bridge-guest")</p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan</p>
+            <p>5. Klik tombol <strong>+</strong> (plus) lagi untuk menambahkan port kedua</p>
+            <p>6. Pada jendela konfigurasi kedua:</p>
+            <p>&nbsp;&nbsp;- <strong>Interface</strong>: Pilih interface wireless tamu ("wifi-guest")</p>
+            <p>&nbsp;&nbsp;- <strong>Bridge</strong>: Pilih bridge tamu ("bridge-guest")</p>
+            <p>7. Klik <strong>OK</strong> untuk menyimpan</p>
+        </div>
+        
+        <div class="tech-alert">
+            <p><strong>Langkah 4: Mengonfigurasi IP Address untuk Subnet Tamu</strong></p>
+            <p>1. Di panel kiri, klik menu <strong>IP</strong> > <strong>Addresses</strong></p>
+            <p>2. Klik tombol <strong>+</strong> (plus) untuk menambahkan alamat baru</p>
+            <p>3. Pada jendela konfigurasi:</p>
+            <p>&nbsp;&nbsp;- <strong>Address</strong>: Masukkan alamat IP dengan subnet (misalnya "192.168.99.1/24")</p>
+            <p>&nbsp;&nbsp;- <strong>Interface</strong>: Pilih bridge tamu ("bridge-guest")</p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan</p>
+        </div>
+        
+        <div class="tech-alert">
+            <p><strong>Langkah 5: Mengonfigurasi DHCP Server</strong></p>
+            <p>1. Di panel kiri, klik menu <strong>IP</strong> > <strong>Pool</strong></p>
+            <p>2. Klik tombol <strong>+</strong> (plus) untuk menambahkan pool baru</p>
+            <p>3. Pada jendela konfigurasi pool:</p>
+            <p>&nbsp;&nbsp;- <strong>Name</strong>: Masukkan nama pool (misalnya "guest-pool")</p>
+            <p>&nbsp;&nbsp;- <strong>Ranges</strong>: Masukkan rentang IP (misalnya "192.168.99.100-192.168.99.200")</p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan</p>
+            <p>5. Klik menu <strong>IP</strong> > <strong>DHCP Server</strong></p>
+            <p>6. Pada tab <strong>DHCP</strong>, klik tombol <strong>+</strong> (plus)</p>
+            <p>7. Pada jendela konfigurasi DHCP:</p>
+            <p>&nbsp;&nbsp;- <strong>Name</strong>: Masukkan nama server (misalnya "guest-dhcp")</p>
+            <p>&nbsp;&nbsp;- <strong>Interface</strong>: Pilih bridge tamu ("bridge-guest")</p>
+            <p>&nbsp;&nbsp;- <strong>Address Pool</strong>: Pilih pool yang baru dibuat ("guest-pool")</p>
+            <p>8. Klik <strong>OK</strong> untuk menyimpan</p>
+            <p>9. Pilih tab <strong>Networks</strong>, klik tombol <strong>+</strong> (plus)</p>
+            <p>10. Pada jendela konfigurasi network:</p>
+            <p>&nbsp;&nbsp;- <strong>Address</strong>: Masukkan subnet (misalnya "192.168.99.0/24")</p>
+            <p>&nbsp;&nbsp;- <strong>Gateway</strong>: Masukkan alamat IP bridge (misalnya "192.168.99.1")</p>
+            <p>&nbsp;&nbsp;- <strong>DNS Servers</strong>: Masukkan server DNS (misalnya "8.8.8.8")</p>
+            <p>11. Klik <strong>OK</strong> untuk menyimpan</p>
+        </div>
+        
+        <div class="tech-alert">
+            <p><strong>Langkah 6: Mengonfigurasi NAT dan Firewall</strong></p>
+            <p>1. Di panel kiri, klik menu <strong>IP</strong> > <strong>Firewall</strong></p>
+            <p>2. Pilih tab <strong>Address Lists</strong>, klik tombol <strong>+</strong> (plus)</p>
+            <p>3. Pada jendela konfigurasi address list:</p>
+            <p>&nbsp;&nbsp;- <strong>List</strong>: Masukkan nama list (misalnya "guest-network")</p>
+            <p>&nbsp;&nbsp;- <strong>Address</strong>: Masukkan subnet tamu (misalnya "192.168.99.0/24")</p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan</p>
+            <p>5. Pilih tab <strong>NAT</strong>, klik tombol <strong>+</strong> (plus)</p>
+            <p>6. Pada jendela konfigurasi NAT:</p>
+            <p>&nbsp;&nbsp;- Tab <strong>General</strong>:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Chain</strong>: Pilih "srcnat"</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Src. Address List</strong>: Pilih "guest-network"</p>
+            <p>&nbsp;&nbsp;- Tab <strong>Action</strong>:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Action</strong>: Pilih "masquerade"</p>
+            <p>7. Klik <strong>OK</strong> untuk menyimpan</p>
+        </div>
+        
+        <div class="tech-alert">
+            <p><strong>Langkah 7: Membuat Aturan Firewall untuk Isolasi</strong></p>
+            <p>1. Masih di menu <strong>IP</strong> > <strong>Firewall</strong>, pilih tab <strong>Filter Rules</strong></p>
+            <p>2. Klik tombol <strong>+</strong> (plus) untuk aturan pertama</p>
+            <p>3. Pada jendela konfigurasi aturan pertama:</p>
+            <p>&nbsp;&nbsp;- Tab <strong>General</strong>:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Chain</strong>: Pilih "forward"</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Connection State</strong>: Pilih "established,related"</p>
+            <p>&nbsp;&nbsp;- Tab <strong>Action</strong>:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Action</strong>: Pilih "accept"</p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan</p>
+            <p>5. Klik tombol <strong>+</strong> (plus) untuk aturan kedua</p>
+            <p>6. Pada jendela konfigurasi aturan kedua:</p>
+            <p>&nbsp;&nbsp;- Tab <strong>General</strong>:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Chain</strong>: Pilih "forward"</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Src. Address List</strong>: Pilih "guest-network"</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Dst. Address</strong>: Masukkan subnet jaringan utama (misalnya "192.168.88.0/24")</p>
+            <p>&nbsp;&nbsp;- Tab <strong>Action</strong>:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Action</strong>: Pilih "drop"</p>
+            <p>7. Klik <strong>OK</strong> untuk menyimpan</p>
+            <p>8. Klik tombol <strong>+</strong> (plus) untuk aturan ketiga</p>
+            <p>9. Pada jendela konfigurasi aturan ketiga:</p>
+            <p>&nbsp;&nbsp;- Tab <strong>General</strong>:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Chain</strong>: Pilih "forward"</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Src. Address List</strong>: Pilih "guest-network"</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Dst. Address List</strong>: Pilih "guest-network"</p>
+            <p>&nbsp;&nbsp;- Tab <strong>Action</strong>:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;* <strong>Action</strong>: Pilih "drop"</p>
+            <p>10. Klik <strong>OK</strong> untuk menyimpan</p>
         </div>
         
         <div class="tech-alert">
@@ -1061,69 +1160,100 @@ user-drag: none;
         
         <p>Dari sumber MikroTik Wiki (2023), access list memungkinkan administrator untuk mengendalikan perangkat mana yang dapat terhubung ke jaringan wireless berdasarkan MAC address, waktu koneksi, dan tingkat sinyal. Koneksi yang telah diterima oleh aturan access list akan diperiksa secara berkala untuk memastikan mereka tetap berada dalam rentang waktu dan sinyal yang diizinkan.</p>
         
-        <h3 class="subsection-title">Konfigurasi Access List via CLI</h3>
-        <p>Langkah-langkah untuk mengonfigurasi access control menggunakan access list di MikroTik:</p>
+        <h3 class="subsection-title">Konfigurasi Access List via Winbox</h3>
+        <p>Langkah-langkah untuk mengonfigurasi access control menggunakan access list di MikroTik melalui Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line comment"># 1. Tambahkan aturan untuk mengizinkan perangkat berdasarkan MAC address</div>
-            <div class="code-line"><span class="keyword">/interface wifi access-list</span> add interface=<span class="string">wifi-guest</span> mac-address=<span class="string">AA:BB:CC:11:22:33</span> \</div>
-            <div class="code-line">    comment=<span class="string">"Device John's laptop"</span> action=<span class="string">accept</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 2. Tambahkan aturan untuk membatasi waktu akses</div>
-            <div class="code-line"><span class="keyword">/interface wifi access-list</span> add interface=<span class="string">wifi-guest</span> mac-address=<span class="string">DD:EE:FF:44:55:66</span> \</div>
-            <div class="code-line">    comment=<span class="string">"Limited time access"</span> action=<span class="string">accept</span> \</div>
-            <div class="code-line">    start-time=<span class="string">8:00:00</span> end-time=<span class="string">17:00:00</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 3. Tambahkan aturan untuk menolak perangkat tertentu</div>
-            <div class="code-line"><span class="keyword">/interface wifi access-list</span> add interface=<span class="string">wifi-guest</span> mac-address=<span class="string">11:22:33:44:55:66</span> \</div>
-            <div class="code-line">    comment=<span class="string">"Blocked device"</span> action=<span class="string">reject</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 4. Tambahkan aturan default untuk menolak semua koneksi lain</div>
-            <div class="code-line"><span class="keyword">/interface wifi access-list</span> add interface=<span class="string">wifi-guest</span> \</div>
-            <div class="code-line">    comment=<span class="string">"Default reject rule"</span> action=<span class="string">reject</span></div>
+        <div class="tech-alert">
+            <p><strong>Langkah 1: Mengizinkan Perangkat Berdasarkan MAC Address</strong></p>
+            <p>1. Buka Winbox dan hubungkan ke router MikroTik</p>
+            <p>2. Di panel kiri, klik menu <strong>WiFi</strong> (RouterOS v7) atau <strong>Wireless</strong> (RouterOS v6)</p>
+            <p>3. Pilih tab <strong>Access List</strong></p>
+            <p>4. Klik tombol <strong>+</strong> (plus) untuk menambahkan aturan baru</p>
+            <p>5. Pada jendela konfigurasi:</p>
+            <p>&nbsp;&nbsp;- <strong>Interface</strong>: Pilih interface wireless tamu (misalnya "wifi-guest")</p>
+            <p>&nbsp;&nbsp;- <strong>MAC Address</strong>: Masukkan MAC address perangkat yang diizinkan (misalnya "AA:BB:CC:11:22:33")</p>
+            <p>&nbsp;&nbsp;- <strong>Comment</strong>: Masukkan deskripsi (misalnya "Device John's laptop")</p>
+            <p>&nbsp;&nbsp;- <strong>Action</strong>: Pilih "accept"</p>
+            <p>6. Klik <strong>OK</strong> untuk menyimpan</p>
         </div>
         
-        <p>Untuk memeriksa access list yang telah dikonfigurasi:</p>
+        <div class="tech-alert">
+            <p><strong>Langkah 2: Membatasi Waktu Akses</strong></p>
+            <p>1. Masih di tab <strong>Access List</strong>, klik tombol <strong>+</strong> (plus) lagi</p>
+            <p>2. Pada jendela konfigurasi:</p>
+            <p>&nbsp;&nbsp;- <strong>Interface</strong>: Pilih interface wireless tamu (misalnya "wifi-guest")</p>
+            <p>&nbsp;&nbsp;- <strong>MAC Address</strong>: Masukkan MAC address perangkat (misalnya "DD:EE:FF:44:55:66")</p>
+            <p>&nbsp;&nbsp;- <strong>Comment</strong>: Masukkan deskripsi (misalnya "Limited time access")</p>
+            <p>&nbsp;&nbsp;- <strong>Start Time</strong>: Masukkan waktu mulai (misalnya "8:00:00")</p>
+            <p>&nbsp;&nbsp;- <strong>End Time</strong>: Masukkan waktu akhir (misalnya "17:00:00")</p>
+            <p>&nbsp;&nbsp;- <strong>Action</strong>: Pilih "accept"</p>
+            <p>3. Klik <strong>OK</strong> untuk menyimpan</p>
+        </div>
         
-        <div class="code-terminal">
-            <div class="code-line"><span class="keyword">/interface wifi access-list print</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># Hasil contoh:</div>
-            <div class="code-line"># Flags: X - disabled</div>
-            <div class="code-line"># 0   interface=wifi-guest mac-address=AA:BB:CC:11:22:33 action=accept comment="Device John's laptop"</div>
-            <div class="code-line"># 1   interface=wifi-guest mac-address=DD:EE:FF:44:55:66 action=accept start-time=8:00:00 end-time=17:00:00 comment="Limited time access"</div>
-            <div class="code-line"># 2   interface=wifi-guest mac-address=11:22:33:44:55:66 action=reject comment="Blocked device"</div>
-            <div class="code-line"># 3   interface=wifi-guest action=reject comment="Default reject rule"</div>
+        <div class="tech-alert">
+            <p><strong>Langkah 3: Menolak Perangkat Tertentu</strong></p>
+            <p>1. Masih di tab <strong>Access List</strong>, klik tombol <strong>+</strong> (plus) lagi</p>
+            <p>2. Pada jendela konfigurasi:</p>
+            <p>&nbsp;&nbsp;- <strong>Interface</strong>: Pilih interface wireless tamu (misalnya "wifi-guest")</p>
+            <p>&nbsp;&nbsp;- <strong>MAC Address</strong>: Masukkan MAC address perangkat yang ditolak (misalnya "11:22:33:44:55:66")</p>
+            <p>&nbsp;&nbsp;- <strong>Comment</strong>: Masukkan deskripsi (misalnya "Blocked device")</p>
+            <p>&nbsp;&nbsp;- <strong>Action</strong>: Pilih "reject"</p>
+            <p>3. Klik <strong>OK</strong> untuk menyimpan</p>
+        </div>
+        
+        <div class="tech-alert">
+            <p><strong>Langkah 4: Menambahkan Aturan Default</strong></p>
+            <p>1. Masih di tab <strong>Access List</strong>, klik tombol <strong>+</strong> (plus) lagi</p>
+            <p>2. Pada jendela konfigurasi:</p>
+            <p>&nbsp;&nbsp;- <strong>Interface</strong>: Pilih interface wireless tamu (misalnya "wifi-guest")</p>
+            <p>&nbsp;&nbsp;- <strong>Comment</strong>: Masukkan deskripsi (misalnya "Default reject rule")</p>
+            <p>&nbsp;&nbsp;- <strong>Action</strong>: Pilih "reject"</p>
+            <p>3. Klik <strong>OK</strong> untuk menyimpan</p>
+            <p>Catatan: Aturan ini akan menolak semua perangkat yang tidak cocok dengan aturan sebelumnya</p>
         </div>
         
         <div class="security-alert">
             <p>Berhati-hatilah saat membuat aturan access list yang menolak client. Seperti disebutkan dalam dokumentasi MikroTik, setelah berulang kali ditolak oleh AP, perangkat client mungkin mulai menghindarinya. Pastikan untuk menguji aturan access list dengan hati-hati untuk menghindari masalah konektivitas.</p>
         </div>
         
-        <h3 class="subsection-title">Access Control dengan RADIUS</h3>
-        <p>Untuk deployment yang lebih besar, MikroTik mendukung autentikasi RADIUS untuk client wireless:</p>
+        <h3 class="subsection-title">Access Control dengan RADIUS via Winbox</h3>
+        <p>Untuk deployment yang lebih besar, MikroTik mendukung autentikasi RADIUS untuk client wireless melalui Winbox:</p>
         
-        <div class="code-terminal">
-            <div class="code-line comment"># 1. Konfigurasi server RADIUS</div>
-            <div class="code-line"><span class="keyword">/radius</span> add service=<span class="string">wireless</span> address=<span class="string">10.0.0.5</span> secret=<span class="string">"radiusSecret"</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 2. Aktifkan autentikasi RADIUS MAC untuk interface wireless</div>
-            <div class="code-line"><span class="keyword">/interface wifi</span> set wifi-guest radius-mac-authentication=<span class="string">yes</span> \</div>
-            <div class="code-line">    radius-mac-format=<span class="string">XX:XX:XX:XX:XX:XX</span> radius-mac-mode=<span class="string">as-username</span></div>
+        <div class="tech-alert">
+            <p><strong>Langkah 1: Konfigurasi Server RADIUS</strong></p>
+            <p>1. Di panel kiri Winbox, klik menu <strong>RADIUS</strong></p>
+            <p>2. Klik tombol <strong>+</strong> (plus) untuk menambahkan server baru</p>
+            <p>3. Pada jendela konfigurasi:</p>
+            <p>&nbsp;&nbsp;- <strong>Service</strong>: Pilih "wireless"</p>
+            <p>&nbsp;&nbsp;- <strong>Address</strong>: Masukkan alamat IP server RADIUS (misalnya "10.0.0.5")</p>
+            <p>&nbsp;&nbsp;- <strong>Secret</strong>: Masukkan shared secret (misalnya "radiusSecret")</p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan</p>
+        </div>
+        
+        <div class="tech-alert">
+            <p><strong>Langkah 2: Aktifkan Autentikasi RADIUS di Interface Wireless</strong></p>
+            <p>1. Di panel kiri, klik menu <strong>WiFi</strong> (v7) atau <strong>Wireless</strong> (v6)</p>
+            <p>2. Double-klik interface wireless yang ingin dikonfigurasi</p>
+            <p>3. Pada jendela konfigurasi:</p>
+            <p>&nbsp;&nbsp;- Centang opsi <strong>RADIUS MAC Authentication</strong></p>
+            <p>&nbsp;&nbsp;- <strong>RADIUS MAC Format</strong>: Pilih format yang sesuai (misalnya "XX:XX:XX:XX:XX:XX")</p>
+            <p>&nbsp;&nbsp;- <strong>RADIUS MAC Mode</strong>: Pilih "as-username"</p>
+            <p>4. Klik <strong>OK</strong> untuk menyimpan</p>
         </div>
         
         <h3 class="subsection-title">Kombinasi Access List dengan Isolasi Client</h3>
-        <p>Menggabungkan access list dengan teknik isolasi client memberikan kontrol penuh atas siapa yang dapat terhubung dan bagaimana mereka dapat berkomunikasi:</p>
+        <p>Menggabungkan access list dengan teknik isolasi client menggunakan Winbox memberikan kontrol penuh atas siapa yang dapat terhubung dan bagaimana mereka dapat berkomunikasi:</p>
         
-        <div class="code-terminal">
-            <div class="code-line comment"># 1. Konfigurasi isolasi client</div>
-            <div class="code-line"><span class="keyword">/interface wifi configuration</span> set [find where name="guestcfg"] \</div>
-            <div class="code-line">    datapath.client-isolation=<span class="string">yes</span></div>
-            <div class="code-line"></div>
-            <div class="code-line comment"># 2. Konfigurasi access list untuk kontrol akses</div>
-            <div class="code-line"><span class="keyword">/interface wifi access-list</span> add interface=<span class="string">wifi-guest</span> mac-address=<span class="string">AA:BB:CC:11:22:33</span> \</div>
-            <div class="code-line">    action=<span class="string">accept</span></div>
-            <div class="code-line"><span class="keyword">/interface wifi access-list</span> add interface=<span class="string">wifi-guest</span> action=<span class="string">reject</span></div>
+        <div class="tech-alert">
+            <p><strong>Langkah 1: Konfigurasikan Isolasi Client</strong></p>
+            <p>1. Di Winbox, menu <strong>WiFi</strong> (v7) atau <strong>Wireless</strong> (v6)</p>
+            <p>2. Konfigurasi interface wireless dengan client isolation seperti pada Section 2</p>
+        </div>
+        
+        <div class="tech-alert">
+            <p><strong>Langkah 2: Tambahkan Aturan Access List</strong></p>
+            <p>1. Konfigurasikan access list untuk kontrol akses seperti langkah-langkah di atas</p>
+            <p>2. Prioritaskan aturan sesuai dengan kebutuhan (aturan accept ditempatkan sebelum aturan reject)</p>
         </div>
         
         <div class="conclusion-box">
@@ -1157,9 +1287,6 @@ user-drag: none;
         </ul>
     </div>
 </div>
-
-
-
 
 
 
@@ -1364,3 +1491,4 @@ user-drag: none;
 </body>
 
 </html>
+
