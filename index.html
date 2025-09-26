@@ -757,7 +757,6 @@ user-drag: none;
 </style>
 
 <body>
-
 <!-- Tech Background -->
 <div class="tech-bg"></div>
 <div class="circuit-pattern"></div>
@@ -813,9 +812,9 @@ user-drag: none;
         </div>
         
         <h3 class="subsection-title">Pengertian Client Isolation</h3>
-        <p>Dari sumber MikroTik Documentation (2024), <strong>client isolation</strong> adalah fitur keamanan di jaringan wireless yang mencegah perangkat client yang terhubung ke Access Point (AP) yang sama untuk berkomunikasi satu sama lain. Fitur ini juga dikenal sebagai "client-to-client blocking" atau "AP isolation". Ketika dihidupkan, masing-masing client wireless hanya dapat berkomunikasi dengan router (access point) dan jaringan eksternal, tetapi tidak dapat melihat atau berkomunikasi langsung dengan client wireless lainnya yang terhubung ke AP yang sama.</p>
+        <p><strong>Client isolation</strong> adalah fitur keamanan di jaringan wireless yang mencegah perangkat client yang terhubung ke Access Point (AP) yang sama untuk berkomunikasi satu sama lain. Fitur ini juga dikenal sebagai "client-to-client blocking" atau "AP isolation". Ketika dihidupkan, masing-masing client wireless hanya dapat berkomunikasi dengan router (access point) dan jaringan eksternal, tetapi tidak dapat melihat atau berkomunikasi langsung dengan client wireless lainnya yang terhubung ke AP yang sama.</p>
         
-        <p>Dari sumber Tangent Soft MikroTik Wiki (2024), isolasi client berfungsi untuk menjaga keamanan dengan memastikan bahwa perangkat tamu atau IoT tidak dapat saling memata-matai atau saling mengirim perintah. Jika ada dua host yang perlu berkomunikasi satu sama lain, mereka seharusnya tidak berada di jaringan "tamu" yang terisolasi.</p>
+        <p>Isolasi client berfungsi untuk menjaga keamanan dengan memastikan bahwa perangkat tamu atau IoT tidak dapat saling memata-matai atau saling mengirim perintah. Jika ada dua host yang perlu berkomunikasi satu sama lain, mereka seharusnya tidak berada di jaringan "tamu" yang terisolasi.</p>
         
         <h3 class="subsection-title">Manfaat Client Isolation</h3>
         <ul>
@@ -827,7 +826,7 @@ user-drag: none;
         </ul>
         
         <h3 class="subsection-title">Cara Kerja Client Isolation di MikroTik</h3>
-        <p>Dari sumber Forum MikroTik (2023), terdapat beberapa pendekatan untuk mengimplementasikan isolasi client wireless di perangkat MikroTik menggunakan Winbox:</p>
+        <p>Terdapat beberapa pendekatan untuk mengimplementasikan isolasi client wireless di perangkat MikroTik menggunakan Winbox:</p>
         
         <div class="tech-alert">
             <p><strong>1. Client Isolation pada tingkat interface wireless</strong></p>
@@ -840,10 +839,10 @@ user-drag: none;
             <p>Membuat aturan firewall untuk memblokir komunikasi antar subnet client</p>
         </div>
         
-        <p>Dari sumber BlockDev.io (2022), pendekatan konvensional untuk jaringan tamu sering dibuat pada level wireless AP dan menggunakan client isolation untuk memastikan client wireless tidak dapat saling berkomunikasi. Namun untuk isolasi yang lebih komprehensif, isolasi pada level jaringan (subnet terpisah) dapat memberikan kontrol yang lebih baik.</p>
+        <p>Pendekatan konvensional untuk jaringan tamu sering dibuat pada level wireless AP dan menggunakan client isolation untuk memastikan client wireless tidak dapat saling berkomunikasi. Namun untuk isolasi yang lebih komprehensif, isolasi pada level jaringan (subnet terpisah) dapat memberikan kontrol yang lebih baik.</p>
         
         <div class="conclusion-box">
-            <p><strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> client isolation adalah fitur keamanan penting di jaringan wireless yang mencegah komunikasi langsung antar client, dengan beberapa metode implementasi di MikroTik mulai dari level wireless interface hingga level jaringan yang lebih luas. Pemilihan metode bergantung pada kebutuhan keamanan dan kompleksitas jaringan.</p>
+            <p><strong>Kesimpulan:</strong> Client isolation adalah fitur keamanan penting di jaringan wireless yang mencegah komunikasi langsung antar client, dengan beberapa metode implementasi di MikroTik mulai dari level wireless interface hingga level jaringan yang lebih luas. Pemilihan metode bergantung pada kebutuhan keamanan dan kompleksitas jaringan.</p>
         </div>
     </div>
 
@@ -862,9 +861,9 @@ user-drag: none;
         </div>
         
         <h3 class="subsection-title">Metode Dasar Client Isolation</h3>
-        <p>Dari sumber Tangent Soft MikroTik Wiki (2024), konfigurasi dasar untuk client isolation di MikroTik dapat dilakukan dengan menggunakan properti client isolation pada konfigurasi wireless. Fitur ini akan mencegah client wireless yang terhubung ke Access Point yang sama untuk dapat berkomunikasi satu sama lain.</p>
+        <p>Konfigurasi dasar untuk client isolation di MikroTik dapat dilakukan dengan menggunakan properti client isolation pada konfigurasi wireless. Fitur ini akan mencegah client wireless yang terhubung ke Access Point yang sama untuk dapat berkomunikasi satu sama lain.</p>
         
-        <p>Dari sumber Forum MikroTik (2021), pengaturan client isolation hanya memblokir forwarding antar client ketika kedua client dilayani oleh AP yang sama. Jika ingin memblokir konektivitas antar client dari AP yang berbeda, harus menggunakan bridge filtering atau subnet yang berbeda melalui VLAN.</p>
+        <p>Pengaturan client isolation hanya memblokir forwarding antar client ketika kedua client dilayani oleh AP yang sama. Jika ingin memblokir konektivitas antar client dari AP yang berbeda, harus menggunakan bridge filtering atau subnet yang berbeda melalui VLAN.</p>
         
         <h3 class="subsection-title">Konfigurasi Client Isolation via Winbox</h3>
         <p>Berikut adalah langkah-langkah konfigurasi client isolation pada interface wireless menggunakan Winbox:</p>
@@ -923,7 +922,7 @@ user-drag: none;
         </div>
         
         <div class="conclusion-box">
-            <p><strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> mengonfigurasi client isolation pada level interface wireless di MikroTik relatif sederhana dengan menggunakan properti Client Isolation (RouterOS v7+) atau Default-Forwarding (RouterOS v6) melalui Winbox. Namun, perlu diingat bahwa metode ini hanya mencegah komunikasi antar client yang terhubung ke AP yang sama, sehingga diperlukan pendekatan tambahan jika ingin isolasi yang lebih komprehensif.</p>
+            <p><strong>Kesimpulan:</strong> Mengonfigurasi client isolation pada level interface wireless di MikroTik relatif sederhana dengan menggunakan properti Client Isolation (RouterOS v7+) atau Default-Forwarding (RouterOS v6) melalui Winbox. Namun, perlu diingat bahwa metode ini hanya mencegah komunikasi antar client yang terhubung ke AP yang sama, sehingga diperlukan pendekatan tambahan jika ingin isolasi yang lebih komprehensif.</p>
         </div>
     </div>
 
@@ -932,9 +931,9 @@ user-drag: none;
         <h2 class="section-title">3. ISOLASI CLIENT MENGGUNAKAN BRIDGE FILTERING</h2>
         
         <h3 class="subsection-title">Konsep Bridge Filtering</h3>
-        <p>Dari sumber Forum MikroTik (2023), bridge filtering dapat digunakan untuk membatasi komunikasi antar perangkat pada level layer 2 (MAC). Metode ini lebih fleksibel dan dapat digunakan untuk memblokir konektivitas antara client yang terhubung ke AP yang berbeda tetapi masih berada dalam bridge yang sama.</p>
+        <p>Bridge filtering dapat digunakan untuk membatasi komunikasi antar perangkat pada level layer 2 (MAC). Metode ini lebih fleksibel dan dapat digunakan untuk memblokir konektivitas antara client yang terhubung ke AP yang berbeda tetapi masih berada dalam bridge yang sama.</p>
         
-        <p>Dari sumber Tangent Soft MikroTik Wiki (2024), pendekatan bridge filtering menggunakan filter pada level bridge daripada filter IP, dan mencegah forwarding antar tamu dan juga ke jaringan lain. Ini dapat menjadi solusi alternatif yang efektif untuk isolasi client tanpa perlu menggunakan VLAN.</p>
+        <p>Pendekatan bridge filtering menggunakan filter pada level bridge daripada filter IP, dan mencegah forwarding antar tamu dan juga ke jaringan lain. Ini dapat menjadi solusi alternatif yang efektif untuk isolasi client tanpa perlu menggunakan VLAN.</p>
         
         <h3 class="subsection-title">Konfigurasi Bridge Filtering via Winbox</h3>
         <p>Langkah-langkah untuk mengonfigurasi isolasi client menggunakan bridge filtering melalui Winbox:</p>
@@ -999,7 +998,7 @@ user-drag: none;
         </ul>
         
         <div class="conclusion-box">
-            <p><strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> bridge filtering menawarkan pendekatan yang lebih komprehensif untuk isolasi client dibandingkan dengan isolasi pada level interface wireless saja. Metode ini dapat memblokir komunikasi antar client yang terhubung ke AP yang berbeda selama mereka berada dalam bridge yang sama, sehingga memberikan lapisan keamanan tambahan untuk jaringan wireless.</p>
+            <p><strong>Kesimpulan:</strong> Bridge filtering menawarkan pendekatan yang lebih komprehensif untuk isolasi client dibandingkan dengan isolasi pada level interface wireless saja. Metode ini dapat memblokir komunikasi antar client yang terhubung ke AP yang berbeda selama mereka berada dalam bridge yang sama, sehingga memberikan lapisan keamanan tambahan untuk jaringan wireless.</p>
         </div>
     </div>
 
@@ -1008,9 +1007,9 @@ user-drag: none;
         <h2 class="section-title">4. ISOLASI CLIENT DENGAN VLAN DAN SUBNET TERPISAH</h2>
         
         <h3 class="subsection-title">Konsep Isolasi dengan VLAN</h3>
-        <p>Dari sumber Forum MikroTik (2024), penggunaan VLAN adalah pendekatan yang sangat efektif untuk isolasi client wireless yang memungkinkan pemisahan trafik pada level jaringan. Dengan menempatkan setiap SSID atau bahkan setiap client pada VLAN yang berbeda, administrator dapat memastikan isolasi yang lebih lengkap dan menerapkan kebijakan firewall yang spesifik untuk setiap kelompok.</p>
+        <p>Penggunaan VLAN adalah pendekatan yang sangat efektif untuk isolasi client wireless yang memungkinkan pemisahan trafik pada level jaringan. Dengan menempatkan setiap SSID atau bahkan setiap client pada VLAN yang berbeda, administrator dapat memastikan isolasi yang lebih lengkap dan menerapkan kebijakan firewall yang spesifik untuk setiap kelompok.</p>
         
-        <p>Dari sumber BlockDev.io (2022), isolasi dengan subnet terpisah memungkinkan client pada jaringan tamu untuk saling melihat tetapi tidak dapat melihat jaringan utama. Pendekatan ini memberikan level isolasi yang lebih tinggi dibandingkan dengan client isolation sederhana pada level AP.</p>
+        <p>Isolasi dengan subnet terpisah memungkinkan client pada jaringan tamu untuk saling melihat tetapi tidak dapat melihat jaringan utama. Pendekatan ini memberikan level isolasi yang lebih tinggi dibandingkan dengan client isolation sederhana pada level AP.</p>
         
         <h3 class="subsection-title">Konfigurasi VLAN dan Subnet via Winbox</h3>
         <p>Langkah-langkah untuk mengonfigurasi isolasi client menggunakan VLAN dan subnet terpisah melalui Winbox:</p>
@@ -1147,7 +1146,7 @@ user-drag: none;
         </ul>
         
         <div class="conclusion-box">
-            <p><strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> penggunaan VLAN dan subnet terpisah menawarkan pendekatan isolasi client yang paling komprehensif dan fleksibel. Meskipun memerlukan konfigurasi yang lebih kompleks, metode ini memberikan kontrol akses yang lebih granular dan keamanan yang lebih tinggi, terutama untuk jaringan enterprise atau yang memerlukan kebijakan keamanan yang ketat.</p>
+            <p><strong>Kesimpulan:</strong> Penggunaan VLAN dan subnet terpisah menawarkan pendekatan isolasi client yang paling komprehensif dan fleksibel. Meskipun memerlukan konfigurasi yang lebih kompleks, metode ini memberikan kontrol akses yang lebih granular dan keamanan yang lebih tinggi, terutama untuk jaringan enterprise atau yang memerlukan kebijakan keamanan yang ketat.</p>
         </div>
     </div>
 
@@ -1156,9 +1155,9 @@ user-drag: none;
         <h2 class="section-title">5. MENGATUR ACCESS CONTROL DENGAN ACCESS LIST</h2>
         
         <h3 class="subsection-title">Konsep Access List di MikroTik</h3>
-        <p>Dari sumber MikroTik Documentation (2024), access list pada RouterOS menyediakan berbagai cara untuk melakukan filtering dan mengelola koneksi wireless. RouterOS akan memeriksa setiap koneksi baru untuk melihat apakah parameternya cocok dengan parameter yang ditentukan dalam aturan access list. Aturan diperiksa sesuai urutan yang muncul dalam daftar, dan hanya tindakan manajemen yang ditentukan dalam aturan pertama yang cocok yang diterapkan pada setiap koneksi.</p>
+        <p>Access list pada RouterOS menyediakan berbagai cara untuk melakukan filtering dan mengelola koneksi wireless. RouterOS akan memeriksa setiap koneksi baru untuk melihat apakah parameternya cocok dengan parameter yang ditentukan dalam aturan access list. Aturan diperiksa sesuai urutan yang muncul dalam daftar, dan hanya tindakan manajemen yang ditentukan dalam aturan pertama yang cocok yang diterapkan pada setiap koneksi.</p>
         
-        <p>Dari sumber MikroTik Wiki (2023), access list memungkinkan administrator untuk mengendalikan perangkat mana yang dapat terhubung ke jaringan wireless berdasarkan MAC address, waktu koneksi, dan tingkat sinyal. Koneksi yang telah diterima oleh aturan access list akan diperiksa secara berkala untuk memastikan mereka tetap berada dalam rentang waktu dan sinyal yang diizinkan.</p>
+        <p>Access list memungkinkan administrator untuk mengendalikan perangkat mana yang dapat terhubung ke jaringan wireless berdasarkan MAC address, waktu koneksi, dan tingkat sinyal. Koneksi yang telah diterima oleh aturan access list akan diperiksa secara berkala untuk memastikan mereka tetap berada dalam rentang waktu dan sinyal yang diizinkan.</p>
         
         <h3 class="subsection-title">Konfigurasi Access List via Winbox</h3>
         <p>Langkah-langkah untuk mengonfigurasi access control menggunakan access list di MikroTik melalui Winbox:</p>
@@ -1257,7 +1256,7 @@ user-drag: none;
         </div>
         
         <div class="conclusion-box">
-            <p><strong>Dari 2 pendapat tersebut dapat disimpulkan bahwa</strong> access list di MikroTik adalah alat yang kuat untuk mengelola akses ke jaringan wireless dengan memberikan kontrol granular berdasarkan MAC address, waktu, dan parameter lainnya. Dengan menggabungkan access list dengan teknik isolasi client, administrator dapat menciptakan jaringan wireless yang aman dengan kontrol penuh atas siapa yang dapat terhubung dan bagaimana mereka dapat berkomunikasi di dalam jaringan.</p>
+            <p><strong>Kesimpulan:</strong> Access list di MikroTik adalah alat yang kuat untuk mengelola akses ke jaringan wireless dengan memberikan kontrol granular berdasarkan MAC address, waktu, dan parameter lainnya. Dengan menggabungkan access list dengan teknik isolasi client, administrator dapat menciptakan jaringan wireless yang aman dengan kontrol penuh atas siapa yang dapat terhubung dan bagaimana mereka dapat berkomunikasi di dalam jaringan.</p>
         </div>
     </div>
 
@@ -1287,7 +1286,6 @@ user-drag: none;
         </ul>
     </div>
 </div>
-
 
 
 
@@ -1491,4 +1489,5 @@ user-drag: none;
 </body>
 
 </html>
+
 
